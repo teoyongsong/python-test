@@ -1,0 +1,854 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Python Beginner Quizzes</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,600;0,9..144,700;1,9..144,600&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --bg: #0f1419;
+      --bg-elevated: #1a222d;
+      --surface: #232f3e;
+      --border: #334155;
+      --text: #e8eef5;
+      --text-muted: #94a3b8;
+      --accent: #38bdf8;
+      --accent-dim: rgba(56, 189, 248, 0.15);
+      --success: #34d399;
+      --warning: #fbbf24;
+      --error: #f87171;
+      --radius: 14px;
+      --shadow: 0 12px 40px rgba(0, 0, 0, 0.35);
+      --font-sans: "Plus Jakarta Sans", system-ui, sans-serif;
+      --font-display: "Fraunces", Georgia, serif;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      font-family: var(--font-sans);
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.55;
+      background-image:
+        radial-gradient(ellipse 120% 80% at 10% -10%, rgba(56, 189, 248, 0.12), transparent 50%),
+        radial-gradient(ellipse 80% 60% at 100% 20%, rgba(52, 211, 153, 0.08), transparent 45%);
+    }
+
+    a {
+      color: var(--accent);
+    }
+
+    .wrap {
+      max-width: 880px;
+      margin: 0 auto;
+      padding: 1.5rem 1.25rem 3rem;
+    }
+
+    header.hero {
+      text-align: center;
+      padding: 2rem 0 2.5rem;
+    }
+
+    header.hero h1 {
+      font-family: var(--font-display);
+      font-size: clamp(1.75rem, 4vw, 2.35rem);
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      margin: 0 0 0.5rem;
+      color: var(--text);
+    }
+
+    header.hero p {
+      margin: 0 auto;
+      max-width: 36ch;
+      color: var(--text-muted);
+      font-size: 1.05rem;
+    }
+
+    .badge {
+      display: inline-block;
+      font-size: 0.75rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--accent);
+      background: var(--accent-dim);
+      padding: 0.35rem 0.65rem;
+      border-radius: 999px;
+      margin-bottom: 1rem;
+    }
+
+    .grid {
+      display: grid;
+      gap: 1rem;
+    }
+
+    @media (min-width: 640px) {
+      .grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+
+    .card {
+      background: var(--bg-elevated);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 1.35rem 1.25rem;
+      text-align: left;
+      transition: transform 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
+      cursor: pointer;
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+    }
+
+    .card:hover,
+    .card:focus-visible {
+      outline: none;
+      border-color: var(--accent);
+      box-shadow: var(--shadow);
+      transform: translateY(-2px);
+    }
+
+    .card h2 {
+      font-family: var(--font-display);
+      font-size: 1.15rem;
+      margin: 0;
+      color: var(--text);
+    }
+
+    .card p {
+      margin: 0;
+      font-size: 0.9rem;
+      color: var(--text-muted);
+      flex: 1;
+    }
+
+    .card .meta {
+      font-size: 0.8rem;
+      color: var(--accent);
+      font-weight: 600;
+    }
+
+    .panel {
+      background: var(--bg-elevated);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 1.5rem 1.25rem 1.75rem;
+      box-shadow: var(--shadow);
+    }
+
+    .quiz-top {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+      margin-bottom: 1.25rem;
+    }
+
+    .quiz-top h2 {
+      font-family: var(--font-display);
+      font-size: 1.25rem;
+      margin: 0;
+    }
+
+    .btn {
+      font-family: var(--font-sans);
+      font-size: 0.95rem;
+      font-weight: 600;
+      border: none;
+      border-radius: 10px;
+      padding: 0.65rem 1.1rem;
+      cursor: pointer;
+      transition: background 0.15s, transform 0.1s;
+    }
+
+    .btn:active {
+      transform: scale(0.98);
+    }
+
+    .btn-primary {
+      background: linear-gradient(135deg, #0ea5e9, #38bdf8);
+      color: #0f172a;
+    }
+
+    .btn-primary:hover {
+      filter: brightness(1.08);
+    }
+
+    .btn-ghost {
+      background: var(--surface);
+      color: var(--text);
+      border: 1px solid var(--border);
+    }
+
+    .btn-ghost:hover {
+      border-color: var(--accent);
+      color: var(--accent);
+    }
+
+    .progress-wrap {
+      width: 100%;
+      margin-top: 0.75rem;
+    }
+
+    .progress-bar {
+      height: 8px;
+      background: var(--surface);
+      border-radius: 999px;
+      overflow: hidden;
+    }
+
+    .progress-fill {
+      height: 100%;
+      background: linear-gradient(90deg, #0ea5e9, #34d399);
+      border-radius: 999px;
+      transition: width 0.35s ease;
+    }
+
+    .progress-label {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      margin-top: 0.35rem;
+    }
+
+    .question-num {
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      margin-bottom: 0.5rem;
+    }
+
+    .question-text {
+      font-size: 1.1rem;
+      margin: 0 0 1.25rem;
+      font-weight: 500;
+    }
+
+    .code {
+      font-family: ui-monospace, "Cascadia Code", "SF Mono", Menlo, monospace;
+      font-size: 0.88em;
+      background: var(--surface);
+      padding: 0.15rem 0.4rem;
+      border-radius: 6px;
+      border: 1px solid var(--border);
+    }
+
+    .options {
+      display: flex;
+      flex-direction: column;
+      gap: 0.65rem;
+    }
+
+    .option {
+      display: flex;
+      align-items: flex-start;
+      gap: 0.75rem;
+      padding: 0.85rem 1rem;
+      border-radius: 10px;
+      border: 1px solid var(--border);
+      background: var(--surface);
+      cursor: pointer;
+      transition: border-color 0.15s, background 0.15s;
+    }
+
+    .option:hover {
+      border-color: var(--accent);
+    }
+
+    .option input {
+      margin-top: 0.2rem;
+      accent-color: var(--accent);
+      width: 1.1rem;
+      height: 1.1rem;
+      flex-shrink: 0;
+    }
+
+    .option span {
+      flex: 1;
+    }
+
+    .option.selected {
+      border-color: var(--accent);
+      background: var(--accent-dim);
+    }
+
+    .nav-row {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      gap: 0.75rem;
+      margin-top: 1.75rem;
+      padding-top: 1.25rem;
+      border-top: 1px solid var(--border);
+    }
+
+    .hidden {
+      display: none !important;
+    }
+
+    .results-score {
+      text-align: center;
+      padding: 1rem 0 1.5rem;
+    }
+
+    .results-score .big {
+      font-family: var(--font-display);
+      font-size: 3rem;
+      font-weight: 700;
+      color: var(--success);
+      line-height: 1;
+    }
+
+    .results-score .sub {
+      color: var(--text-muted);
+      margin-top: 0.5rem;
+    }
+
+    .review-item {
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 1rem;
+      margin-bottom: 0.75rem;
+      background: var(--surface);
+    }
+
+    .review-item.correct {
+      border-color: rgba(52, 211, 153, 0.45);
+    }
+
+    .review-item.wrong {
+      border-color: rgba(248, 113, 113, 0.45);
+    }
+
+    .review-q {
+      font-weight: 600;
+      margin-bottom: 0.5rem;
+    }
+
+    .review-detail {
+      font-size: 0.9rem;
+      color: var(--text-muted);
+    }
+
+    .review-detail strong {
+      color: var(--text);
+    }
+
+    footer.site {
+      text-align: center;
+      padding: 2rem 1rem;
+      color: var(--text-muted);
+      font-size: 0.85rem;
+    }
+
+    #view-home:not(.hidden) {
+      animation: fadeIn 0.35s ease;
+    }
+
+    #view-quiz:not(.hidden),
+    #view-results:not(.hidden) {
+      animation: fadeIn 0.35s ease;
+    }
+
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(8px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .results-actions {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      align-items: center;
+      gap: 0.75rem;
+      margin-top: 0.5rem;
+      padding-top: 1.25rem;
+      border-top: 1px solid var(--border);
+    }
+
+    @media print {
+      body {
+        background: #fff !important;
+        color: #111 !important;
+      }
+
+      .no-print {
+        display: none !important;
+      }
+
+      header.hero,
+      footer.site {
+        display: none !important;
+      }
+
+      .wrap {
+        max-width: none;
+        padding: 0.4in 0.5in;
+      }
+
+      #view-results.panel {
+        border: none !important;
+        box-shadow: none !important;
+        background: #fff !important;
+        padding: 0 !important;
+      }
+
+      .results-score .big {
+        color: #0d6e4f !important;
+      }
+
+      .review-item {
+        background: #f8fafc !important;
+        border-color: #cbd5e1 !important;
+        break-inside: avoid;
+        page-break-inside: avoid;
+      }
+
+      .review-detail {
+        color: #334155 !important;
+      }
+
+      .print-header {
+        display: block !important;
+        margin: 0 0 0.75rem;
+        padding-bottom: 0.5rem;
+        border-bottom: 1px solid #ccc;
+        font-size: 0.8rem;
+        color: #64748b !important;
+      }
+
+      .results-actions {
+        display: none !important;
+      }
+    }
+
+    .print-header {
+      display: none;
+      margin: 0;
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <header class="hero no-print">
+      <span class="badge">Beginner friendly</span>
+      <h1>Python practice quizzes</h1>
+      <p><strong>Seven</strong> multiple-choice quizzes. Each run draws <strong>10</strong> questions from a <strong>bank of 30</strong> in random order. Pick a topic and see explanations when you finish.</p>
+    </header>
+
+    <section id="view-home" class="grid no-print" aria-label="Quiz topics">
+      <article class="card" tabindex="0" role="button" data-quiz="0" aria-label="Open quiz: Data types, variables, operators">
+        <h2>Data types &amp; basics</h2>
+        <p>Types, variables, naming, and arithmetic and comparison operators.</p>
+        <span class="meta">10 questions · bank of 30 · ~6 min</span>
+      </article>
+      <article class="card" tabindex="0" role="button" data-quiz="1" aria-label="Open quiz: Strings and control flow">
+        <h2>Strings &amp; control flow</h2>
+        <p>String methods, conditionals, loops, and common patterns.</p>
+        <span class="meta">10 questions · bank of 30 · ~6 min</span>
+      </article>
+      <article class="card" tabindex="0" role="button" data-quiz="2" aria-label="Open quiz: NumPy and Pandas">
+        <h2>NumPy &amp; Pandas</h2>
+        <p>Arrays, Series, DataFrames, and everyday data manipulation.</p>
+        <span class="meta">10 questions · bank of 30 · ~7 min</span>
+      </article>
+      <article class="card" tabindex="0" role="button" data-quiz="3" aria-label="Open quiz: Cleaning, viz, and EDA">
+        <h2>Cleaning, charts &amp; EDA</h2>
+        <p>Missing values, duplicates, summaries, and plotting basics.</p>
+        <span class="meta">10 questions · bank of 30 · ~7 min</span>
+      </article>
+      <article class="card" tabindex="0" role="button" data-quiz="4" aria-label="Open quiz: Introduction to ML, feature scaling and linear regression">
+        <h2>ML intro &amp; linear regression</h2>
+        <p>Supervised learning basics, preprocessing, scaling, and linear models.</p>
+        <span class="meta">10 questions · bank of 30 · ~8 min</span>
+      </article>
+      <article class="card" tabindex="0" role="button" data-quiz="5" aria-label="Open quiz: KNN, logistic regression and decision trees">
+        <h2>Classification: k-NN, logistic, trees</h2>
+        <p>Neighborhood models, logistic regression, trees, and ensembles.</p>
+        <span class="meta">10 questions · bank of 30 · ~8 min</span>
+      </article>
+      <article class="card" tabindex="0" role="button" data-quiz="6" aria-label="Open quiz: Model evaluation and hyperparameter tuning">
+        <h2>Evaluation &amp; hyperparameter tuning</h2>
+        <p>Metrics, cross-validation, leakage, and search methods.</p>
+        <span class="meta">10 questions · bank of 30 · ~8 min</span>
+      </article>
+    </section>
+
+    <section id="view-quiz" class="panel hidden no-print" aria-live="polite">
+      <div class="quiz-top">
+        <h2 id="quiz-title">Quiz</h2>
+        <button type="button" class="btn btn-ghost" id="btn-exit">← Back to topics</button>
+      </div>
+      <div class="progress-wrap">
+        <div class="progress-bar" role="progressbar" aria-valuemin="1" aria-valuemax="10" id="progress-bar" aria-label="Quiz progress">
+          <div class="progress-fill" id="progress-fill" style="width: 10%"></div>
+        </div>
+        <div class="progress-label" id="progress-label">Question 1 of 10</div>
+        <p class="progress-label" id="quiz-hint" style="margin-top: 0.25rem; font-size: 0.78rem; opacity: 0.9;">Order is randomized each attempt.</p>
+      </div>
+      <p class="question-num" id="question-num"></p>
+      <p class="question-text" id="question-text"></p>
+      <div class="options" id="options" role="radiogroup" aria-labelledby="question-text"></div>
+      <div class="nav-row">
+        <button type="button" class="btn btn-ghost" id="btn-prev">Previous</button>
+        <button type="button" class="btn btn-primary" id="btn-next">Next</button>
+      </div>
+    </section>
+
+    <section id="view-results" class="panel hidden" aria-live="polite">
+      <div id="results-print-area">
+        <p class="print-header" id="print-header-line"></p>
+        <div class="quiz-top">
+          <h2 id="results-title">Results</h2>
+          <button type="button" class="btn btn-ghost no-print" id="btn-results-home">← All topics</button>
+        </div>
+        <div class="results-score">
+          <div class="big" id="score-pct">0%</div>
+          <p class="sub" id="score-detail">0 of 10 correct</p>
+        </div>
+        <div id="review-list"></div>
+      </div>
+      <div class="results-actions no-print">
+        <button type="button" class="btn btn-ghost" id="btn-print-results" title="Open the browser print dialog">Print results</button>
+        <button type="button" class="btn btn-ghost" id="btn-download-results" title="Save a plain-text summary of this attempt">Download (.txt)</button>
+        <button type="button" class="btn btn-primary" id="btn-retry">Retry this quiz</button>
+      </div>
+    </section>
+
+    <footer class="site no-print">Load <span class="code" style="font-size: inherit">quiz-data.js</span> from the same folder · No login required</footer>
+  </div>
+
+  <script src="quiz-data.js"></script>
+  <script>
+    (function () {
+      const QUESTIONS_PER_QUIZ = 10;
+
+      /** @type {{ title: string, bank: object[] }[]} */
+      const quizzes = window.QUIZ_BANKS;
+      if (!quizzes || quizzes.length !== 7) {
+        console.error("quiz-data.js must define QUIZ_BANKS with seven topics.");
+      }
+
+      function shuffleInPlace(arr) {
+        for (var i = arr.length - 1; i > 0; i--) {
+          var j = Math.floor(Math.random() * (i + 1));
+          var t = arr[i];
+          arr[i] = arr[j];
+          arr[j] = t;
+        }
+        return arr;
+      }
+
+      /** Random subset of n questions in random order (Fisher–Yates on indices, take n). */
+      function pickRandomQuestions(bank, n) {
+        if (!bank || bank.length === 0) return [];
+        var take = Math.min(n, bank.length);
+        var idx = bank.map(function (_, i) {
+          return i;
+        });
+        shuffleInPlace(idx);
+        return idx.slice(0, take).map(function (i) {
+          return bank[i];
+        });
+      }
+
+      const viewHome = document.getElementById("view-home");
+      const viewQuiz = document.getElementById("view-quiz");
+      const viewResults = document.getElementById("view-results");
+      const quizTitle = document.getElementById("quiz-title");
+      const questionText = document.getElementById("question-text");
+      const questionNum = document.getElementById("question-num");
+      const optionsEl = document.getElementById("options");
+      const btnPrev = document.getElementById("btn-prev");
+      const btnNext = document.getElementById("btn-next");
+      const btnExit = document.getElementById("btn-exit");
+      const progressFill = document.getElementById("progress-fill");
+      const progressLabel = document.getElementById("progress-label");
+      const progressBar = document.getElementById("progress-bar");
+      const scorePct = document.getElementById("score-pct");
+      const scoreDetail = document.getElementById("score-detail");
+      const reviewList = document.getElementById("review-list");
+      const resultsTitle = document.getElementById("results-title");
+      const btnResultsHome = document.getElementById("btn-results-home");
+      const btnRetry = document.getElementById("btn-retry");
+      const btnPrintResults = document.getElementById("btn-print-results");
+      const btnDownloadResults = document.getElementById("btn-download-results");
+      const printHeaderLine = document.getElementById("print-header-line");
+
+      let quizIndex = 0;
+      let qIndex = 0;
+      /** @type {number[]} */
+      let answers = [];
+      /** @type {object[]} Active session: 10 random questions in random order */
+      let sessionQuestions = [];
+
+      function showHome() {
+        viewHome.classList.remove("hidden");
+        viewQuiz.classList.add("hidden");
+        viewResults.classList.add("hidden");
+      }
+
+      function showQuiz() {
+        viewHome.classList.add("hidden");
+        viewQuiz.classList.remove("hidden");
+        viewResults.classList.add("hidden");
+      }
+
+      function showResults() {
+        viewHome.classList.add("hidden");
+        viewQuiz.classList.add("hidden");
+        viewResults.classList.remove("hidden");
+      }
+
+      function openQuiz(idx) {
+        quizIndex = idx;
+        qIndex = 0;
+        const entry = quizzes[idx];
+        const bank = entry && entry.bank;
+        if (!bank || bank.length < QUESTIONS_PER_QUIZ) {
+          alert("Question bank is missing or too small. Ensure quiz-data.js is loaded.");
+          return;
+        }
+        sessionQuestions = pickRandomQuestions(bank, QUESTIONS_PER_QUIZ);
+        answers = new Array(sessionQuestions.length).fill(null);
+        quizTitle.textContent = entry.title;
+        progressBar.setAttribute("aria-valuemax", String(sessionQuestions.length));
+        renderQuestion();
+        showQuiz();
+      }
+
+      function renderQuestion() {
+        const qs = sessionQuestions;
+        const total = qs.length;
+        const q = qs[qIndex];
+
+        questionNum.textContent = "Multiple choice";
+        questionText.innerHTML = q.q;
+
+        optionsEl.innerHTML = "";
+        const name = "q" + quizIndex + "-" + qIndex;
+        q.choices.forEach(function (choice, i) {
+          const label = document.createElement("label");
+          label.className = "option";
+          if (answers[qIndex] === i) label.classList.add("selected");
+          const input = document.createElement("input");
+          input.type = "radio";
+          input.name = name;
+          input.value = String(i);
+          input.checked = answers[qIndex] === i;
+          const span = document.createElement("span");
+          span.innerHTML = choice;
+          label.appendChild(input);
+          label.appendChild(span);
+          label.addEventListener("click", function (e) {
+            if (e.target !== input) {
+              input.checked = true;
+            }
+            answers[qIndex] = i;
+            document.querySelectorAll(".option").forEach(function (el) {
+              el.classList.remove("selected");
+            });
+            label.classList.add("selected");
+          });
+          input.addEventListener("change", function () {
+            answers[qIndex] = i;
+            document.querySelectorAll(".option").forEach(function (el) {
+              el.classList.remove("selected");
+            });
+            label.classList.add("selected");
+          });
+          optionsEl.appendChild(label);
+        });
+
+        const pct = ((qIndex + 1) / total) * 100;
+        progressFill.style.width = pct + "%";
+        progressBar.setAttribute("aria-valuenow", String(qIndex + 1));
+        progressLabel.textContent = "Question " + (qIndex + 1) + " of " + total;
+
+        btnPrev.disabled = qIndex === 0;
+        btnNext.textContent = qIndex === total - 1 ? "See results" : "Next";
+      }
+
+      function computeResults() {
+        const qs = sessionQuestions;
+        let correct = 0;
+        const items = [];
+        for (let i = 0; i < qs.length; i++) {
+          const right = answers[i] === qs[i].correct;
+          if (right) correct++;
+          items.push({
+            q: qs[i].q,
+            user: answers[i],
+            correct: qs[i].correct,
+            choices: qs[i].choices,
+            explain: qs[i].explain,
+            isCorrect: right
+          });
+        }
+        return { correct, total: qs.length, items };
+      }
+
+      function showResultsView() {
+        const r = computeResults();
+        const pct = r.total === 0 ? 0 : Math.round((r.correct / r.total) * 100);
+        scorePct.textContent = pct + "%";
+        scoreDetail.textContent = r.correct + " of " + r.total + " correct";
+        resultsTitle.textContent = quizzes[quizIndex].title;
+
+        reviewList.innerHTML = "";
+        r.items.forEach(function (item, idx) {
+          const div = document.createElement("div");
+          div.className = "review-item " + (item.isCorrect ? "correct" : "wrong");
+          const rq = document.createElement("div");
+          rq.className = "review-q";
+          rq.innerHTML = (idx + 1) + ". " + item.q;
+          const det = document.createElement("div");
+          det.className = "review-detail";
+          const yourAns =
+            item.user === null
+              ? "(no answer)"
+              : stripHtml(item.choices[item.user]);
+          const rightAns = stripHtml(item.choices[item.correct]);
+          det.innerHTML =
+            (item.isCorrect
+              ? "<strong>Correct.</strong> "
+              : "<strong>Your answer:</strong> " + yourAns + ". <strong>Correct:</strong> " + rightAns + ". ") +
+            "<br/>" +
+            item.explain;
+          div.appendChild(rq);
+          div.appendChild(det);
+          reviewList.appendChild(div);
+        });
+
+        if (printHeaderLine) {
+          printHeaderLine.textContent =
+            "Python practice quiz · " + new Date().toLocaleString(undefined, { dateStyle: "medium", timeStyle: "short" });
+        }
+
+        showResults();
+      }
+
+      function sanitizeFilename(name) {
+        return String(name || "quiz-results")
+          .replace(/[^a-z0-9]+/gi, "-")
+          .replace(/^-|-$/g, "")
+          .toLowerCase() || "quiz-results";
+      }
+
+      function buildResultsTextPlain() {
+        const r = computeResults();
+        const title = quizzes[quizIndex].title;
+        const pct = r.total === 0 ? 0 : Math.round((r.correct / r.total) * 100);
+        const lines = [];
+        lines.push("Python practice quiz");
+        lines.push("Topic: " + title);
+        lines.push("Generated: " + new Date().toISOString());
+        lines.push("Score: " + pct + "% (" + r.correct + " of " + r.total + " correct)");
+        lines.push("");
+        lines.push("---");
+        lines.push("");
+        r.items.forEach(function (item, idx) {
+          lines.push(idx + 1 + ". " + stripHtml(item.q));
+          const yourAns =
+            item.user === null ? "(no answer)" : stripHtml(item.choices[item.user]);
+          const rightAns = stripHtml(item.choices[item.correct]);
+          if (item.isCorrect) {
+            lines.push("   Correct.");
+          } else {
+            lines.push("   Your answer: " + yourAns);
+            lines.push("   Correct answer: " + rightAns);
+          }
+          lines.push("   Note: " + stripHtml(item.explain));
+          lines.push("");
+        });
+        return lines.join("\n");
+      }
+
+      function downloadResultsTxt() {
+        const r = computeResults();
+        if (r.total === 0) return;
+        const title = quizzes[quizIndex].title;
+        const text = buildResultsTextPlain();
+        const blob = new Blob([text], { type: "text/plain;charset=utf-8" });
+        const a = document.createElement("a");
+        const stamp = new Date().toISOString().slice(0, 10);
+        a.href = URL.createObjectURL(blob);
+        a.download = sanitizeFilename(title) + "-results-" + stamp + ".txt";
+        a.setAttribute("aria-label", "Download quiz results as a text file");
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        URL.revokeObjectURL(a.href);
+      }
+
+      function stripHtml(html) {
+        const t = document.createElement("div");
+        t.innerHTML = html;
+        return t.textContent || t.innerText || "";
+      }
+
+      document.querySelectorAll(".card[data-quiz]").forEach(function (card) {
+        card.addEventListener("click", function () {
+          openQuiz(Number(card.getAttribute("data-quiz")));
+        });
+        card.addEventListener("keydown", function (e) {
+          if (e.key === "Enter" || e.key === " ") {
+            e.preventDefault();
+            openQuiz(Number(card.getAttribute("data-quiz")));
+          }
+        });
+      });
+
+      btnPrev.addEventListener("click", function () {
+        if (qIndex > 0) {
+          qIndex--;
+          renderQuestion();
+        }
+      });
+
+      btnNext.addEventListener("click", function () {
+        const total = sessionQuestions.length;
+        if (qIndex < total - 1) {
+          qIndex++;
+          renderQuestion();
+        } else {
+          showResultsView();
+        }
+      });
+
+      btnExit.addEventListener("click", showHome);
+      btnResultsHome.addEventListener("click", showHome);
+      btnRetry.addEventListener("click", function () {
+        openQuiz(quizIndex);
+      });
+
+      btnPrintResults.addEventListener("click", function () {
+        window.print();
+      });
+
+      btnDownloadResults.addEventListener("click", function () {
+        downloadResultsTxt();
+      });
+    })();
+  </script>
+</body>
+</html>
